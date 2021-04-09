@@ -1,28 +1,11 @@
-package com.example.concert_service.data.model;
+package com.example.concert_service.data.dto.artist;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
-@Table(name = "artists", schema = "public")
-public class Artist {
+public class ArtistInfoDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer artistId;
     private String artistName;
-
-    @OneToOne
-    @JoinColumn(name = "file_id")
-    private File file;
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
 
     public Integer getArtistId() {
         return artistId;
@@ -44,19 +27,18 @@ public class Artist {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Artist artist = (Artist) o;
-        return Objects.equals(artistName, artist.artistName) &&
-                Objects.equals(file, artist.file);
+        ArtistInfoDto that = (ArtistInfoDto) o;
+        return Objects.equals(artistName, that.artistName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(artistName, file);
+        return Objects.hash(artistId, artistName);
     }
 
     @Override
     public String toString() {
-        return "Artist{" +
+        return "ArtistInfoDto{" +
                 "artistId=" + artistId +
                 ", artistName='" + artistName + '\'' +
                 '}';

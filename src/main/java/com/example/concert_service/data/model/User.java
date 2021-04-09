@@ -2,6 +2,7 @@ package com.example.concert_service.data.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "public")
@@ -21,6 +22,22 @@ public class User {
     @ManyToOne
     @JoinColumn(name="location_id")
     private Location location;
+
+    @ManyToMany()
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<AuthorizationRole> roles;
+
+    public Set<AuthorizationRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<AuthorizationRole> roles) {
+        this.roles = roles;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -79,12 +96,13 @@ public class User {
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(file, user.file) &&
-                Objects.equals(location, user.location);
+                Objects.equals(location, user.location) &&
+                Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, email, file, location);
+        return Objects.hash(login, password, email, file, location, roles);
     }
 
     @Override
@@ -96,6 +114,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", file=" + file +
                 ", location=" + location +
+                ", roles=" + roles +
                 '}';
     }
 }

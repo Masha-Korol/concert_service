@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/api/v1/concerts")
 public class ConcertController {
 
@@ -23,7 +24,7 @@ public class ConcertController {
     }
 
     @GetMapping("/")
-    public List<Concert> getAll(){
+    public List<ConcertInfoDto> getAll(){
         return concertService.getAll();
     }
 }

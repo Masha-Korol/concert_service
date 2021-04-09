@@ -1,8 +1,6 @@
 package com.example.concert_service.controller;
 
-import com.example.concert_service.data.dto.ArtistDto;
-import com.example.concert_service.data.mapper.ArtistMapper;
-import com.example.concert_service.data.model.Artist;
+import com.example.concert_service.data.dto.artist.ArtistCreationDto;
 import com.example.concert_service.service.ArtistService;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -12,20 +10,18 @@ import java.util.*;
 public class ArtistController {
 
     private final ArtistService artistService;
-    private final ArtistMapper artistMapper;
 
-    public ArtistController(ArtistService artistService, ArtistMapper artistMapper) {
+    public ArtistController(ArtistService artistService) {
         this.artistService = artistService;
-        this.artistMapper = artistMapper;
     }
 
     @PostMapping("/")
-    public void add(@RequestBody ArtistDto artist){
+    public void add(@RequestBody ArtistCreationDto artist){
         artistService.add(artist);
     }
 
     @GetMapping("/")
-    public List<ArtistDto> getAll(){
+    public List<ArtistCreationDto> getAll(){
         return artistService.getAll();
     }
 }

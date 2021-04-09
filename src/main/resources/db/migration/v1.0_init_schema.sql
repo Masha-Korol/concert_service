@@ -14,7 +14,6 @@ CREATE TABLE concerts (
 CREATE TABLE artists (
 	artist_id serial NOT NULL,
 	artist_name VARCHAR(255) NOT NULL,
-	country VARCHAR(255),
 	file_id integer,
 	CONSTRAINT artists_pk PRIMARY KEY (artist_id)
 );
@@ -58,16 +57,34 @@ CREATE TABLE friends (
 
 
 CREATE TABLE files (
-	file_id integer NOT NULL,
+	file_id serial NOT NULL,
 	data bytea NOT NULL,
 	CONSTRAINT files_pk PRIMARY KEY (file_id)
 );
 
+
+
 create table locations (
-    location_id integer NOT NULL,
+    location_id serial NOT NULL,
     country VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
     CONSTRAINT locations_pk PRIMARY KEY (location_id)
+);
+
+
+
+CREATE TABLE user_authorization_roles
+(
+    role_id   serial NOT NULL,
+    role_name varchar(100),
+    CONSTRAINT user_authorization_roles_pk PRIMARY KEY (role_id)
+);
+
+
+CREATE TABLE user_roles
+(
+    user_id integer NOT NULL,
+    role_id integer NOT NULL
 );
 
 
@@ -90,3 +107,9 @@ ALTER TABLE users_concerts ADD CONSTRAINT users_concerts_fk1 FOREIGN KEY (concer
 ALTER TABLE friends ADD CONSTRAINT friends_fk0 FOREIGN KEY (user_id) REFERENCES users(user_id);
 ALTER TABLE friends ADD CONSTRAINT friends_fk1 FOREIGN KEY (friend_user_id) REFERENCES users(user_id);
 
+ALTER TABLE user_roles ADD CONSTRAINT user_roles_fk0 FOREIGN KEY (user_id) REFERENCES users (user_id);
+ALTER TABLE user_roles ADD CONSTRAINT user_roles_fk1 FOREIGN KEY (role_id) REFERENCES user_authorization_roles (role_id);
+
+insert into user_authorization_roles (role_name) values ('ROLE_USER');
+insert into user_authorization_roles (role_name) values ('ROLE_MODERATOR');
+insert into user_authorization_roles (role_name) values ('ROLE_ADMIN');
